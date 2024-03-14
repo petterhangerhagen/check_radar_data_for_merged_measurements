@@ -109,7 +109,7 @@ def plot_for_vizualization(merged_measurements, measurement_dict, filename, work
     merged_measurements_index = 0
     for k, (timestamp, measurements) in enumerate(measurement_dict.items()):
         merged_measurements_to_plot = []
-        fig, ax, origin_x, origin_y = plot()
+        fig, ax, origin_x, origin_y = plot(work_dir)
         ax.set_title(f"Timestamp: {timestamp}")
 
         if timestamp < merged_measurements_timestamps[merged_measurements_index]:
@@ -169,7 +169,7 @@ def plot_for_vizualization_without_merged_measurements(measurement_dict, filenam
     color = []
     
     for k, (timestamp, measurements) in enumerate(measurement_dict.items()):
-        fig, ax, origin_x, origin_y = plot()
+        fig, ax, origin_x, origin_y = plot(work_dir)
         ax.set_title(f"Timestamp: {timestamp}")
         for measurement in measurements:
             y.append(measurement[1] + origin_y)
