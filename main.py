@@ -114,7 +114,7 @@ def main():
             else:
                 # plotting.plot_for_vizualization(merged_measurements, measurement_dict, filename, work_dir)
                 save_dir = make_new_directory(filename)
-                plotting.plot_for_report(measurement_dict, merged_measurements, save_dir, filename)
+                plotting.plot_for_report(measurement_dict, merged_measurements, save_dir, filename,work_dir)
                 write_filenames_to_txt(file_path, txt_filename)
 
 

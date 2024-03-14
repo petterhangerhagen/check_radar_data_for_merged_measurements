@@ -5,9 +5,9 @@ import progressbar
 from matplotlib.colors import LinearSegmentedColormap
 import matplotlib.patches as mpatches
 
-def plot():
+def plot(work_dir):
     fig, ax = plt.subplots(figsize=(11, 7.166666))
-    data = np.load("/home/aflaptop/Documents/radar_tracker/code/npy_files/occupancy_grid.npy",allow_pickle='TRUE').item()
+    data = np.load(f"{work_dir}/npy_files/occupancy_grid.npy",allow_pickle='TRUE').item()
     occupancy_grid = data["occupancy_grid"]
     origin_x = data["origin_x"]
     origin_y = data["origin_y"]
@@ -23,7 +23,7 @@ def plot():
     display_second_occupancy_grid = True
     if display_second_occupancy_grid:
         # Load and display the second occupancy grid
-        data2 = np.load("/home/aflaptop/Documents/radar_tracker/code/npy_files/occupancy_grid_without_dilating.npy", allow_pickle=True).item()
+        data2 = np.load(f"{work_dir}/npy_files/occupancy_grid_without_dilating.npy", allow_pickle=True).item()
         occupancy_grid2 = data2["occupancy_grid"]
         
         # Second imshow with alpha for overlap effect
@@ -188,7 +188,7 @@ def plot_for_vizualization_without_merged_measurements(measurement_dict, filenam
     # plt.close()
     empty_folder(photos_file_path)
 
-def plot_for_report(measurement_dict, merged_measurements, save_dir, filename):
+def plot_for_report(measurement_dict, merged_measurements, save_dir, filename, work_dir):
     timestamps = list(measurement_dict.keys())
     k = 0
     for k, merged_measurement in enumerate(merged_measurements):
@@ -212,7 +212,7 @@ def plot_for_report(measurement_dict, merged_measurements, save_dir, filename):
         timestamps_list = list(measurement_dict_for_plotting.keys())
         color_scale = np.linspace(timestamps_list[0], timestamps_list[-1], len(timestamps_list))
 
-        fig, ax, origin_x, origin_y = plot()
+        fig, ax, origin_x, origin_y = plot(work_dir)
         
         x = []
         y = []
@@ -229,7 +229,7 @@ def plot_for_report(measurement_dict, merged_measurements, save_dir, filename):
         plt.close()
     print(f"Saved {k+1} plots to {save_dir}")
 
-    fig, ax, origin_x, origin_y = plot()
+    fig, ax, origin_x, origin_y = plot(work_dir)
     plot_measurements_in_background(measurement_dict, ax, origin_x, origin_y)
     for merged_measurement in merged_measurements:
         merged_measurement.plot_MM_init(ax, origin_x, origin_y)
