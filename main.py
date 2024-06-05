@@ -16,7 +16,8 @@ import os
 """
 IMPORTANT: Need to change the radar_data_path and wokring_directory to the correct paths!!
 """
-work_dir = "/home/aflaptop/Desktop/merged_measurement"
+# work_dir = "/home/aflaptop/Documents/code_for_checking_merged_measurement/"
+work_dir = os.getcwd()
 radar_data_path = "/home/aflaptop/Documents/radar_data"
 
 
@@ -84,6 +85,7 @@ def main():
     # path_list = find_files(radar_data_path,txt_filename)
 
     path_list = [f"{radar_data_path}/data_aug_18-19/rosbag_2023-08-19-14-22-41.json"]
+    path_list = ["/home/aflaptop/Documents/radar_data/data_aug_18-19/rosbag_2023-08-19-14-22-41.json"]
     
     plot_only_map = False
     if plot_only_map:   

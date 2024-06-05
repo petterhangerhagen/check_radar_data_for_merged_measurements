@@ -6,6 +6,8 @@ from matplotlib.colors import LinearSegmentedColormap
 import matplotlib.patches as mpatches
 
 def plot(work_dir):
+    font_size_axis = 20
+    font_size = 17
     fig, ax = plt.subplots(figsize=(11, 7.166666))
     data = np.load(f"{work_dir}/npy_files/occupancy_grid.npy",allow_pickle='TRUE').item()
     occupancy_grid = data["occupancy_grid"]
@@ -17,8 +19,8 @@ def plot(work_dir):
               extent=[0, occupancy_grid.shape[1], 0, occupancy_grid.shape[0]])
     
     # Highlight origin
-    ax.plot(origin_x, origin_y, c="red", marker="o", zorder=10, markersize=10)
-    ax.annotate(f"Radar", (origin_x + 2, origin_y + 2), zorder=10, fontsize=15)
+    ax.plot(origin_x, origin_y, c="Black", marker="o", zorder=10, markersize=10)
+    ax.annotate(f"Radar", (origin_x + 2, origin_y + 2), zorder=10, fontsize=font_size)
     
     display_second_occupancy_grid = True
     if display_second_occupancy_grid:
@@ -42,9 +44,9 @@ def plot(work_dir):
     ax.set_xlim(origin_x-120,origin_x + 120)
     ax.set_ylim(origin_y-140, origin_y + 20)
     ax.set_aspect('equal')
-    ax.set_xlabel('East [m]',fontsize=15)
-    ax.set_ylabel('North [m]',fontsize=15)
-    plt.tick_params(axis='both', which='major', labelsize=15)
+    ax.set_xlabel('East [m]',fontsize=font_size_axis)
+    ax.set_ylabel('North [m]',fontsize=font_size_axis)
+    plt.tick_params(axis='both', which='major', labelsize=font_size_axis)
     plt.tight_layout()
 
     # reformating the x and y axis
@@ -52,13 +54,17 @@ def plot(work_dir):
     x_axis_list_str = []
     for x in x_axis_list:
         x_axis_list_str.append(str(int(x-origin_x)))
-    plt.xticks(x_axis_list, x_axis_list_str)
+    ax.set_xticks(x_axis_list)
+    ax.set_xticklabels(x_axis_list_str)
+    # plt.xticks(x_axis_list, x_axis_list_str)
 
     y_axis_list = np.arange(origin_y-140,origin_y+21,20)
     y_axis_list_str = []
     for y in y_axis_list:
         y_axis_list_str.append(str(int(y-origin_y)))
-    plt.yticks(y_axis_list, y_axis_list_str) 
+    ax.set_yticks(y_axis_list)
+    ax.set_yticklabels(y_axis_list_str)
+    # plt.yticks(y_axis_list, y_axis_list_str) 
 
     ax.grid(True)    
     return fig, ax, origin_x, origin_y
@@ -189,6 +195,8 @@ def plot_for_vizualization_without_merged_measurements(measurement_dict, filenam
     empty_folder(photos_file_path)
 
 def plot_for_report(measurement_dict, merged_measurements, save_dir, filename, work_dir):
+    font_size_axis = 20
+    font_size = 17
     timestamps = list(measurement_dict.keys())
     k = 0
     for k, merged_measurement in enumerate(merged_measurements):
@@ -224,7 +232,7 @@ def plot_for_report(measurement_dict, merged_measurements, save_dir, filename, w
                 colors.append(color_scale[timestamps_list.index(timestamp)])
         sc = ax.scatter(x, y, c=colors, cmap='Greys')
         merged_measurement.plot_MM_init(ax, origin_x, origin_y)
-        ax.legend(loc='upper left', fontsize=13)
+        ax.legend(loc='lower right', fontsize=font_size)
         plt.savefig(f"{save_dir}/{filename[:-5]}_merged_measurement_number_{k+1}.png")
         plt.close()
     print(f"Saved {k+1} plots to {save_dir}")
@@ -233,7 +241,7 @@ def plot_for_report(measurement_dict, merged_measurements, save_dir, filename, w
     plot_measurements_in_background(measurement_dict, ax, origin_x, origin_y)
     for merged_measurement in merged_measurements:
         merged_measurement.plot_MM_init(ax, origin_x, origin_y)
-    plt.savefig(f"{save_dir}/{filename[:-5]}_all_merged_measurements.png",dpi=400)
+    plt.savefig(f"{save_dir}/{filename[:-5]}_all_merged_measurements.png",dpi=100)
     plt.close()
     
 
